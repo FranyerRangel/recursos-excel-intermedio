@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos: Excel Intermedio</title>
+    <style>
+        /* --- VARIABLES DE COLOR (Modo Claro por defecto) --- */
+        :root {
+            --excel-primary: #107c41; /* Verde principal de Excel */
+            --excel-dark: #0a4d28;    /* Verde oscuro para hover */
+            --excel-light: #f3fcf4;   /* Fondo verde muy claro */
+            --bg-general: #f8f9fa;    /* Fondo de la app */
+            --bg-card: #ffffff;       /* Fondo de elementos/cabecera */
+            --text-main: #333333;     /* Texto principal */
+            --text-muted: #5f6368;    /* Texto secundario */
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- PALETA DE COLORES MODO OSCURO --- */
+        [data-theme="dark"] {
+            --excel-primary: #107c41; 
+            --excel-dark: #1f9a55;    /* Verde más brillante para resaltar en oscuro */
+            --excel-light: #163222;   /* Fondo verde oscuro para hover */
+            --bg-general: #121212;    /* Gris casi negro */
+            --bg-card: #1e1e1e;       /* Gris oscuro para elementos */
+            --text-main: #e0e0e0;     /* Texto claro */
+            --text-muted: #a0a0a0;    /* Texto secundario claro */
+            --border-color: #333333;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- ESTILOS GENERALES Y RESPONSIVE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-general);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- BOTÓN MODO OSCURO --- */
+        .theme-toggle {
+            position: absolute;
+            top: 25px;
+            right: 20px;
+            background-color: var(--bg-general);
+            border: 2px solid var(--excel-primary);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--excel-light);
+        }
+
+        /* --- CABECERA --- */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 4px solid var(--excel-primary);
+            padding: 35px 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            animation: fadeInDown 0.6s ease-out;
+            position: relative;
+        }
+
+        h1 {
+            color: var(--excel-primary);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            padding-right: 40px; /* Espacio para no chocar con el botón en móviles */
+        }
+
+        .professor {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .professor strong {
+            color: var(--text-main);
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        main {
+            flex: 1;
+            padding: 40px 0;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-muted);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* --- LISTA DE RECURSOS --- */
+        .resources-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .resource-item {
+            animation: fadeInUp 0.5s ease-out both;
+        }
+
+        .resource-item:nth-child(1) { animation-delay: 0.1s; }
+        .resource-item:nth-child(2) { animation-delay: 0.2s; }
+        .resource-item:nth-child(3) { animation-delay: 0.3s; }
+        .resource-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-card);
+            padding: 20px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            border-left: 5px solid var(--excel-primary);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .resource-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(16, 124, 65, 0.15);
+            background-color: var(--excel-light);
+        }
+
+        .class-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .download-btn {
+            background-color: var(--excel-primary);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .resource-link:hover .download-btn {
+            background-color: var(--excel-dark);
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            background-color: var(--bg-card);
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--excel-primary);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+        }
+
+        footer a:hover {
+            color: var(--excel-dark);
+        }
+
+        footer a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--excel-dark);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        footer a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- AJUSTES MÓVILES --- */
+        @media (max-width: 600px) {
+            header .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 40px;
+            }
+            .theme-toggle {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+            }
+            h1 { font-size: 1.7rem; padding-right: 0; text-align: center; }
+            .resource-link {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .download-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header>
+        <div class="container">
+            <!-- Botón de Modo Claro / Oscuro -->
+            <button class="theme-toggle" id="themeBtn" aria-label="Cambiar modo de color">
+                <span id="themeIcon">🌙</span> <span id="themeText">Oscuro</span>
+            </button>
+
+            <h1>Recursos: Excel Intermedio</h1>
+            <p class="professor">Profesor: <strong>Franyer Rangel</strong></p>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="container">
+            <p class="intro-text">Selecciona una clase para acceder y descargar los recursos correspondientes.</p>
+            
+            <ul class="resources-list">
+                <li class="resource-item">
+                    <a href="https://drive.google.com/drive/u/0/folders/1KJVHDbTzJZM2WVipaxvpiKfjbmiCRSKt" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="class-title">Clase 1:</span>
+                        <span class="download-btn">Descargar Recursos</span>
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="class-title">Clase 2</span>
+                        <span class="download-btn">Descargar Recursos</span>
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="class-title">Clase 3</span>
+                        <span class="download-btn">Descargar Recursos</span>
+                    </a>
+                </li>
+                <li class="resource-item">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="resource-link">
+                        <span class="class-title">Clase 4</span>
+                        <span class="download-btn">Descargar Recursos</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <div class="container">
+            Desarrollado por <a href="https://www.instagram.com/frandeveloper/" target="_blank" rel="noopener noreferrer">Frandeveloper</a>
+        </div>
+    </footer>
+
+    <!-- LOGICA JAVASCRIPT PARA EL MODO OSCURO -->
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        // Comprobar si el usuario ya tenía una preferencia guardada anteriormente
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        // Aplicar el tema al cargar la página
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Claro';
+        }
+
+        // Función para cambiar de tema al hacer clic
+        themeBtn.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            
+            if (theme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Oscuro';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Claro';
+            }
+        });
+    </script>
+</body>
+</html>
